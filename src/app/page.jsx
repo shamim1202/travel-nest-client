@@ -1,8 +1,9 @@
+import HeroCarousel from "@/components/HeroCarousel";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      
+    <div className="space-y-6 md:space-y-14">
+      <HeroCarousel></HeroCarousel>
     </div>
   );
 }
