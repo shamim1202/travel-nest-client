@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -39,7 +38,6 @@ export default function HotelResourts() {
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8 px-5 md:px-16">
-
       {/* ------- Text Content -------- */}
       <div className="w-full md:w-5/12 space-y-5 md:space-y-10">
         <div>
@@ -76,20 +74,12 @@ export default function HotelResourts() {
 
             {/* Text Box */}
             <div className="absolute bottom-4 left-4 right-4 bg-white bg-opacity-40 backdrop-blur-md p-2 md:p-4 rounded shadow-md md:space-y-1">
-              <div className="flex flex-row items-baseline justify-between md:gap-2">
-                <h2 className="md:text-xl font-semibold text-neutral">
-                  {h.hotel}
-                </h2>
-                <h2 className="md:text-xl font-semibold text-primary">
-                  {h.pricePerDay}
-                </h2>
-              </div>
-              <div className="flex flex-row items-center justify-between">
-                <p className="text-xs md:text-sm text-accent">
-                {h.dateFrom} - {h.dateTo}
+              <h2 className="md:text-xl font-semibold text-neutral">
+                {h.hotel}
+              </h2>
+              <p className="text-xs md:text-sm text-accent">
+                {h.location}
               </p>
-                <p className="text-sm md:text-base text-neutral font-semibold">Per Day</p>
-              </div>
             </div>
           </div>
         ))}

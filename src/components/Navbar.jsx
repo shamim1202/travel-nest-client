@@ -109,13 +109,13 @@ export default function Navbar() {
         ) : (
           <>
             <Link
-              href="/auth/login"
+              href="/login"
               className="btn btn-outline btn-secondary btn-xs md:btn-sm lg:btn-md"
             >
               Login
             </Link>
             <Link
-              href="/auth/register"
+              href="/register"
               className="btn btn-primary hover:btn-secondary btn-xs md:btn-sm lg:btn-md"
             >
               Register
