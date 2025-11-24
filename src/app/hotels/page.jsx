@@ -2,6 +2,7 @@
 import axios from "axios";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function HotelsPage() {
@@ -90,9 +91,9 @@ export default function HotelsPage() {
                   </h3>
                 </div>
 
-                <button className="btn btn-sm md:btn-md btn-primary hover:btn-secondary text-white transition">
+                <Link href="/rooms" className="btn btn-sm md:btn-md btn-primary hover:btn-secondary text-white transition">
                   See Room
-                </button>
+                </Link>
               </div>
             </motion.div>
           </div>
