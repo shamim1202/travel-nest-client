@@ -1,8 +1,8 @@
-import React from "react";
+import AllRooms from "@/components/AllRooms";
 
 export default function page() {
   return (
-    <div className="md:my-16 bg-green-100 p-5 md:p-10">
+    <div className="my-8 md:my-16 bg-green-100 p-5 md:p-16">
       <div className="text-center space-y-3 md:space-y-5 mb-6 md:mb-10">
         <h1 className="text-2xl md:text-5xl font-bold text-primary">
           Unlock Every Destination
@@ -15,7 +15,7 @@ export default function page() {
         </p>
       </div>
       <div>
-        <h1>all room show card</h1>
+        <AllRooms></AllRooms>
       </div>
     </div>
   );
