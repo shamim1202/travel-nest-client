@@ -1,16 +1,17 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-
-// Dummy user session
-const user = null; // Replace with actual session logic
+import Swal from "sweetalert2";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [mounted, setMounted] = useState(false);
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -21,24 +22,52 @@ export default function Navbar() {
     { label: "Contact", href: "/contact" },
   ];
 
+  useEffect(() => {
+    setMounted(true);
+
+    // Load user from localStorage on mount
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
+    // Listen to custom event from login/register pages
+    const handleUserUpdate = (e) => {
+      setUser(e.detail || null);
+    };
+    window.addEventListener("userUpdated", handleUserUpdate);
+
+    return () => {
+      window.removeEventListener("userUpdated", handleUserUpdate);
+    };
+  }, []);
+
+  if (!mounted) return null;
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: "Logged out successfully",
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+    });
+
+    router.push("/");
+  };
+
   return (
-    <div className="navbar bg-green-100 shadow-sm px-4">
-      {/* Logo + Hamburger */}
-      <div className="navbar-start flex items-center gap-2">
-        <Link href="/" className="hidden md:flex items-center gap-2">
-          <Image
-            src="/TravelNestLogo.png"
-            width={40}
-            height={40}
-            alt="Travel Nest Logo"
-          />
-          <span className="text-lg md:text-xl font-bold md:font-extrabold">
-            TravelNest
-          </span>
-        </Link>
-        {/* Mobile Hamburger */}
+    <nav className="bg-green-100 shadow-sm px-4 md:px-8 relative">
+      {/* Mobile Navbar */}
+      <div className="flex items-center justify-between md:hidden py-3">
+        {/* Hamburger */}
         <button
-          className="md:hidden btn btn-ghost ml-2 p-2"
+          className="btn btn-ghost p-2"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <svg
@@ -56,87 +85,82 @@ export default function Navbar() {
             />
           </svg>
         </button>
-      </div>
 
-      {/* Centered Nav Links (Large Screens) */}
-      <div className="navbar-center hidden md:flex">
-        <ul className="menu menu-horizontal px-1 gap-2">
-          {navItems.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className={`px-3 py-2 hover:bg-secondary hover:text-white ${
-                  pathname === item.href
-                    ? "bg-primary text-white font-semibold"
-                    : ""
-                }`}
+        {/* Logo */}
+        <Link href="/" className="mx-auto flex items-center gap-2">
+          <Image src="/TravelNestLogo.png" width={40} height={40} alt="Logo" />
+        </Link>
+
+        {/* Auth Buttons / User */}
+        <div>
+          {user ? (
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <img
+                    src={user.photo || "/default-user.png"}
+                    alt="User"
+                    className="w-10 h-10 rounded-full"
+                  />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-48"
               >
-                {item.label}
+                <li className="m-4">
+                  <p className="font-semibold">{user.displayName || "User"}</p>
+                  <p className="text-sm text-gray-600">{user.email}</p>
+                </li>
+                <li>
+                  <Link href="/add-booking" className="px-4 py-1">
+                    Add Booking
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/manage-booking" className="px-4 py-1">
+                    Manage Booking
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="text-left px-4 py-2 w-full"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <Link
+                href="/login"
+                className="btn btn-xs btn-outline btn-secondary rounded-none"
+              >
+                Login
               </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Right Side: Auth */}
-      <div className="navbar-end flex items-center gap-2">
-        {user ? (
-          <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-              <div className="w-10 rounded-full">
-                <Image
-                  src={user.image || "/default-user.png"}
-                  width={40}
-                  height={40}
-                  alt="User"
-                />
-              </div>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <Link href="/dashboard">Dashboard</Link>
-              </li>
-              <li>
-                <Link href="/profile">Profile</Link>
-              </li>
-              <li>
-                <Link href="/logout">Logout</Link>
-              </li>
-            </ul>
-          </div>
-        ) : (
-          <>
-            <Link
-              href="/login"
-              className="btn btn-outline btn-secondary btn-xs md:btn-sm lg:btn-md"
-            >
-              Login
-            </Link>
-            <Link
-              href="/register"
-              className="btn btn-primary hover:btn-secondary btn-xs md:btn-sm lg:btn-md"
-            >
-              Register
-            </Link>
-          </>
-        )}
+              <Link
+                href="/register"
+                className="btn btn-xs btn-primary rounded-none"
+              >
+                Register
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-36 bg-transparent shadow-md z-50">
-          <ul className="menu menu-compact p-4 gap-1">
+        <div className="md:hidden absolute top-full left-0 w-48 bg-white/70 shadow-lg z-50 p-4">
+          <ul className="flex flex-col gap-1">
             {navItems.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`px-3 py-0.5 hover:bg-base-200 ${
-                    pathname === item.href
-                      ? "bg-primary text-white font-semibold"
-                      : ""
+                  className={`block px-3 py-1 rounded-none text-sm hover:bg-green-200 ${
+                    pathname === item.href ? "bg-green-300" : ""
                   }`}
                   onClick={() => setMenuOpen(false)}
                 >
@@ -147,6 +171,86 @@ export default function Navbar() {
           </ul>
         </div>
       )}
-    </div>
+
+      {/* Desktop Navbar */}
+      <div className="hidden md:flex items-center justify-between py-3">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2">
+          <Image src="/TravelNestLogo.png" width={40} height={40} alt="Logo" />
+          <span className="text-xl font-bold">TravelNest</span>
+        </Link>
+
+        {/* Nav Links */}
+        <ul className="flex gap-4">
+          {navItems.map((item) => (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                className={`px-3 py-2 rounded hover:bg-green-200 ${
+                  pathname === item.href ? "bg-green-300 font-semibold" : ""
+                }`}
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        {/* Auth / User */}
+        <div>
+          {user ? (
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-16 rounded-full">
+                  <img
+                    src={user.photo || "/default-user.png"}
+                    alt="User"
+                    className="w-14 h-14 rounded-full"
+                  />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li className="px-4 py-2">
+                  <p className="font-semibold">{user.displayName || "User"}</p>
+                  <p className="text-sm text-gray-600">{user.email}</p>
+                </li>
+                <div className="space-y-2">
+                  <li>
+                    <Link href="/add-booking" className="px-4 py-1">
+                      Add Booking
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/manage-booking" className="px-4 py-1">
+                      Manage Booking
+                    </Link>
+                  </li>
+                </div>
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="text-left btn btn-error btn-sm w-full text-sm text-white my-1"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <div className="flex gap-2">
+              <Link href="/login" className="btn btn-outline btn-secondary">
+                Login
+              </Link>
+              <Link href="/register" className="btn btn-primary">
+                Register
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+    </nav>
   );
 }

@@ -5,13 +5,21 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "i.ibb.co",
+      },
+      {
+        protocol: "https",
         hostname: "i.ibb.co.com",
       },
       {
         protocol: "https",
-        hostname: "i.ibb.com",
+        hostname: "lh3.googleusercontent.com",
       },
-    ], // <-- host image into imagebb
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+      },
+    ],
   },
 };
 
