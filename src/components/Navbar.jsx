@@ -65,7 +65,7 @@ export default function Navbar() {
             <li key={item.href}>
               <Link
                 href={item.href}
-                className={`px-3 py-2 rounded hover:bg-secondary hover:text-white ${
+                className={`px-3 py-2 hover:bg-secondary hover:text-white ${
                   pathname === item.href
                     ? "bg-primary text-white font-semibold"
                     : ""
@@ -133,7 +133,7 @@ export default function Navbar() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`px-3 py-0.5 rounded hover:bg-base-200 ${
+                  className={`px-3 py-0.5 hover:bg-base-200 ${
                     pathname === item.href
                       ? "bg-primary text-white font-semibold"
                       : ""
