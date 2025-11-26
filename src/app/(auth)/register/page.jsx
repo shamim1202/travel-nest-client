@@ -1,14 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import Swal from "sweetalert2";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../lib/firebase";
+import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
+import { auth } from "../../../lib/firebase";
 
-// Convert image file → Base64
+// Convert file to Base64
 const convertToBase64 = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -20,7 +19,6 @@ const convertToBase64 = (file) => {
 
 export default function RegisterPage() {
   const router = useRouter();
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,26 +31,30 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      // PHOTO OPTIONAL (default-photo)
+      // Optional photo
       let photoURL = "/default-user.png";
-
       if (photoFile) photoURL = await convertToBase64(photoFile);
 
-      // Firebase auth - Create user
+      // Firebase Auth create user
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Save user to localStorage
+      // Update Firebase Auth profile with name & photo
+      await updateProfile(user, {
+        displayName: name,
+        photoURL,
+      });
+
+      // Save to localStorage for Navbar
       const userData = {
         uid: user.uid,
         displayName: name,
         email,
         photo: photoURL,
       };
-
       localStorage.setItem("user", JSON.stringify(userData));
 
-      // Notify navbar
+      // Trigger Navbar update
       window.dispatchEvent(new CustomEvent("userUpdated", { detail: userData }));
 
       Swal.fire({
@@ -62,16 +64,14 @@ export default function RegisterPage() {
         showConfirmButton: false,
       });
 
-      router.push("/");
-    } catch (error) {
-      console.error("Registration Error:", error);
-
+      router.push("/"); // Navigate home
+    } catch (err) {
+      console.error(err);
       Swal.fire({
         icon: "error",
-        title: "Registration Failed!",
-        text: error.message,
+        title: "Registration Failed",
+        text: err.message,
       });
-
     } finally {
       setLoading(false);
     }
@@ -80,10 +80,9 @@ export default function RegisterPage() {
   return (
     <div className="py-6 flex flex-col items-center">
       <div className="card w-full max-w-md shadow-xl border p-6">
-        <h2 className="text-3xl font-bold text-center mb-4">Create an Account</h2>
+        <h2 className="text-3xl font-bold text-center mb-4">Create Account</h2>
 
         <form onSubmit={handleRegister} className="flex flex-col gap-3">
-
           <label>Name</label>
           <input
             type="text"
@@ -142,9 +141,9 @@ export default function RegisterPage() {
 
         <p className="text-center mt-4">
           Already have an account?{" "}
-          <Link href="/login" className="text-blue-600 font-semibold">
+          <a href="/login" className="text-blue-600 font-semibold">
             Login
-          </Link>
+          </a>
         </p>
       </div>
     </div>
