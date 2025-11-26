@@ -3,8 +3,8 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <div className="bg-green-100 md:mt-16">
-      <footer className="footer footer-horizontal footer-center text-base-content rounded md:p-10">
+    <div className="bg-green-100 p-5 md:p-10">
+      <footer className="footer footer-horizontal footer-center text-base-content rounded">
         <nav className="grid grid-flow-col gap-4">
           <a className="link link-hover">About us</a>
           <a className="link link-hover">Contact</a>
@@ -50,8 +50,7 @@ export default function Footer() {
         </nav>
         <aside>
           <p>
-            Copyright © {new Date().getFullYear()} - All right reserved by ACME
-            Industries Ltd
+            Copyright © {new Date().getFullYear()} - All right reserved by Travel Nest Co.
           </p>
         </aside>
       </footer>

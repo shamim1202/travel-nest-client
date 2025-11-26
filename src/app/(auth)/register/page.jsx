@@ -1,11 +1,12 @@
 "use client";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { auth } from "../../../lib/firebase";
+import Image from "next/image";
 
 // Convert file to Base64
 const convertToBase64 = (file) => {
@@ -26,6 +27,9 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || "/";
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -36,7 +40,11 @@ export default function RegisterPage() {
       if (photoFile) photoURL = await convertToBase64(photoFile);
 
       // Firebase Auth create user
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
 
       // Update Firebase Auth profile with name & photo
@@ -55,7 +63,9 @@ export default function RegisterPage() {
       localStorage.setItem("user", JSON.stringify(userData));
 
       // Trigger Navbar update
-      window.dispatchEvent(new CustomEvent("userUpdated", { detail: userData }));
+      window.dispatchEvent(
+        new CustomEvent("userUpdated", { detail: userData })
+      );
 
       Swal.fire({
         icon: "success",
@@ -64,7 +74,7 @@ export default function RegisterPage() {
         showConfirmButton: false,
       });
 
-      router.push("/"); // Navigate home
+      router.push(redirectUrl); // Navigate home
     } catch (err) {
       console.error(err);
       Swal.fire({
@@ -78,73 +88,87 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="py-6 flex flex-col items-center">
-      <div className="card w-full max-w-md shadow-xl border p-6">
-        <h2 className="text-3xl font-bold text-center mb-4">Create Account</h2>
-
-        <form onSubmit={handleRegister} className="flex flex-col gap-3">
-          <label>Name</label>
-          <input
-            type="text"
-            className="input input-bordered"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Your Name"
-            required
+    <div className="p-5 md:p-10">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-center">
+        <div className="relative w-full md:w-1/2 h-5 md:h-auto">
+          <Image
+            src="https://i.ibb.co/xKBSq8Yw/register.png"
+            alt="Register"
+            width={550}
+            height={400}
+            className="object-cover opacity-20 md:opacity-100 bg-black/20 md:bg-black/0"
           />
+        </div>
 
-          <label>Email</label>
-          <input
-            type="email"
-            className="input input-bordered"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Your Email"
-            required
-          />
+        <div className="card w-full max-w-md shadow-xl p-3 md:p-6">
+          <h2 className="text-secondary text-2xl md:text-4xl font-bold mt-4 md:mt-6 text-center">
+            Create Account
+          </h2>
 
-          <label>Password</label>
-          <div className="relative">
+          <form onSubmit={handleRegister} className="flex flex-col gap-3">
+            <label>Name</label>
             <input
-              type={showPassword ? "text" : "password"}
-              className="input input-bordered w-full pr-10"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
+              type="text"
+              className="input input-bordered"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Your Name"
               required
             />
+
+            <label>Email</label>
+            <input
+              type="email"
+              className="input input-bordered"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Your Email"
+              required
+            />
+
+            <label>Password</label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                className="input input-bordered w-full pr-10"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                required
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+
+            <label>Upload Photo (Optional)</label>
+            <input
+              type="file"
+              className="file-input w-full"
+              accept="image/*"
+              onChange={(e) => setPhotoFile(e.target.files[0])}
+            />
+
             <button
-              type="button"
-              className="absolute right-3 top-1/2 -translate-y-1/2"
-              onClick={() => setShowPassword(!showPassword)}
+              type="submit"
+              className="btn btn-primary mt-3"
+              disabled={loading}
             >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
+              {loading ? "Registering..." : "Register"}
             </button>
-          </div>
+          </form>
 
-          <label>Upload Photo (Optional)</label>
-          <input
-            type="file"
-            className="file-input w-full"
-            accept="image/*"
-            onChange={(e) => setPhotoFile(e.target.files[0])}
-          />
-
-          <button
-            type="submit"
-            className="btn btn-primary mt-3"
-            disabled={loading}
-          >
-            {loading ? "Registering..." : "Register"}
-          </button>
-        </form>
-
-        <p className="text-center mt-4">
-          Already have an account?{" "}
-          <a href="/login" className="text-blue-600 font-semibold">
-            Login
-          </a>
-        </p>
+          <p className="text-center mt-4">
+            Already have an account?{" "}
+            <a href="/login" className="text-blue-600 font-semibold">
+              Login
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );

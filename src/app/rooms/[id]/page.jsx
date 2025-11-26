@@ -1,6 +1,6 @@
+import BookingButton from "@/components/BookingButton";
 import Image from "next/image";
 import Link from "next/link";
-import BookingButton from "./BookingButton";
 
 export default async function RoomDetailsPage({ params }) {
   const { id } = await params;
@@ -91,7 +91,9 @@ export default async function RoomDetailsPage({ params }) {
         {/* Buttons */}
         <div className="flex gap-4 mt-6">
           <Link href="/rooms">
-            <button className="btn btn-outline btn-sm md:btn-md btn-secondary rounded-none font-medium">Back</button>
+            <button className="btn btn-outline btn-sm md:btn-md btn-secondary rounded-none font-medium">
+              Back
+            </button>
           </Link>
 
           <BookingButton roomId={id} />

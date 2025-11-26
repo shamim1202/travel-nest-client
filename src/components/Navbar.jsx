@@ -19,7 +19,6 @@ export default function Navbar() {
     { label: "Rooms", href: "/rooms" },
     { label: "My Bookings", href: "/my_bookings" },
     { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
   ];
 
   useEffect(() => {
@@ -113,8 +112,8 @@ export default function Navbar() {
                   <p className="text-sm text-gray-600">{user.email}</p>
                 </li>
                 <li>
-                  <Link href="/add-booking" className="px-4 py-1">
-                    Add Booking
+                  <Link href="/add-hotel" className="px-4 py-1">
+                    Add Hotel
                   </Link>
                 </li>
                 <li>
@@ -219,8 +218,8 @@ export default function Navbar() {
                 </li>
                 <div className="space-y-2">
                   <li>
-                    <Link href="/add-booking" className="px-4 py-1">
-                      Add Booking
+                    <Link href="/add-hotel" className="px-4 py-1">
+                      Add Hotel
                     </Link>
                   </li>
                   <li>

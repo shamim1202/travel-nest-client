@@ -3,12 +3,11 @@
 import { auth, provider } from "@/lib/firebase";
 import {
   signInWithEmailAndPassword,
-  signInWithPopup,
-  updateProfile,
+  signInWithPopup
 } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -20,6 +19,8 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+const redirectUrl = searchParams.get("redirect") || "/";
 
   // ------------------ Save & Sync User Locally --------------------
   const saveUserToLocal = (user) => {
@@ -54,7 +55,7 @@ export default function LoginPage() {
         showConfirmButton: false,
       });
 
-      router.push("/");
+      router.push(redirectUrl);
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -82,7 +83,7 @@ export default function LoginPage() {
         showConfirmButton: false,
       });
 
-      router.push("/");
+      router.push(redirectUrl);
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -91,14 +92,14 @@ export default function LoginPage() {
       });
     }
   };
-
+// https://i.ibb.co/xKBSq8Yw/register.png
   return (
     <div>
       <div className="flex flex-col md:flex-row md:items-center md:justify-center">
         
         <div className="relative w-full md:w-1/2 h-5 md:h-auto">
           <Image
-            src="https://i.ibb.co/xKBSq8Yw/register.png"
+            src="https://i.ibb.co.com/Z64dx37b/login.png"
             alt="Register"
             width={550}
             height={400}
@@ -107,7 +108,7 @@ export default function LoginPage() {
         </div>
 
         <div className="py-4 md:py-12 flex md:flex-1 flex-col items-center justify-center px-4 md:rounded">
-          <div className="card w-full max-w-md shadow-xl hover:shadow-2xl transition-all duration-300 pb-5 md:pb-0">
+          <div className="card w-full max-w-md shadow-xl hover:shadow-2xl transition-all duration-300 pb-5 md:pb-10">
 
             <h1 className="text-secondary text-2xl md:text-4xl font-bold mt-4 md:mt-6 text-center">
               Login To Your Account
