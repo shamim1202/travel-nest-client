@@ -1,18 +1,18 @@
-# TravelNest
+# 🌍 TravelNest – Modern Hotel & Resort Booking Platform
 
 **TravelNest** is a modern, responsive travel and hotel booking web application that allows users to explore popular destinations, browse hotels and resorts, filter by budget, business, and luxury categories, and make bookings. Hotel or resort owners can log in to manage their listings, making it a full-fledged real-world travel service platform.
 
 ---
 
-## **Demo**
+## 🌍 Demo
 
 Live demo: [https://travel-nest-client.vercel.app/](https://travel-nest-client.vercel.app/)
 
 ---
 
-## **Features**
+## 🚀 Features
 
-### **For Users**
+### 👤 User Features 
 
 - Browse hotels and resorts by destination
 - Filter by categories: Budget, Business, Luxury
@@ -24,7 +24,7 @@ Live demo: [https://travel-nest-client.vercel.app/](https://travel-nest-client.v
 - Log in to make bookings
 - Smooth user experience with dynamic navigation and responsive design
 
-### **For Hotel/Resort Owners**
+### 🏨 Hotel Owner Features
 
 - Register or log in as a provider
 - Add new hotels, resorts, and rooms to the platform
@@ -33,7 +33,7 @@ Live demo: [https://travel-nest-client.vercel.app/](https://travel-nest-client.v
 
 ---
 
-## **Tech Stack**
+### 🛠️ Tech Stack 
 
 **Frontend / UI**
 
@@ -60,11 +60,12 @@ Live demo: [https://travel-nest-client.vercel.app/](https://travel-nest-client.v
 
 ---
 
-## **Getting Started**
+## 📦 Installation & Setup
 
 ### **1. Clone the Repository**
 
 ```bash
 git clone https://github.com/shamim1202/travel-nest-server
 git clone https://github.com/shamim1202/travel-nest-client
+cd travel-nest-server OR traver-nest-client
 ```
