@@ -39,7 +39,7 @@
 //     };
 
 //     try {
-//       const res = await fetch("http://localhost:5000/booking-room", {
+//       const res = await fetch("https://travel-nest-server-iota.vercel.app/booking-room", {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify(payload),
@@ -179,7 +179,7 @@ export default function BookingModal({ roomId, onClose }) {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/booking-room", {
+      const res = await fetch("https://travel-nest-server-iota.vercel.app/booking-room", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

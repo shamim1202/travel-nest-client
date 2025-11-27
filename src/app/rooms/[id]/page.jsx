@@ -5,7 +5,7 @@ import Link from "next/link";
 export default async function RoomDetailsPage({ params }) {
   const { id } = await params;
 
-  const res = await fetch(`http://localhost:5000/rooms/${id}`, {
+  const res = await fetch(`https://travel-nest-server-iota.vercel.app/rooms/${id}`, {
     cache: "no-store",
   });
 

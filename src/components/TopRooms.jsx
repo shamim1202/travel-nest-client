@@ -17,7 +17,7 @@ export default function TopRooms() {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/top-rooms?type=${type}`
+        `https://travel-nest-server-iota.vercel.app/top-rooms?type=${type}`
       );
       setRooms(res.data);
       setLoading(false);

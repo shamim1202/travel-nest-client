@@ -12,7 +12,7 @@ export default function MyBookingsPage() {
     if (!auth.currentUser) return;
     try {
       const res = await fetch(
-        `http://localhost:5000/my-bookings/${auth.currentUser.uid}`
+        `https://travel-nest-server-iota.vercel.app/my-bookings/${auth.currentUser.uid}`
       );
       const data = await res.json();
       setBookings(data);
@@ -38,7 +38,7 @@ export default function MyBookingsPage() {
 
     if (confirmed.isConfirmed) {
       try {
-        await fetch(`http://localhost:5000/bookings/${id}`, {
+        await fetch(`https://travel-nest-server-iota.vercel.app/bookings/${id}`, {
           method: "DELETE",
         });
         Swal.fire("Deleted!", "Booking has been deleted.", "success");
@@ -72,7 +72,7 @@ export default function MyBookingsPage() {
     // check if user clicked confirm
     if (isConfirmed && formValues) {
       try {
-        await fetch(`http://localhost:5000/bookings/${id}`, {
+        await fetch(`https://travel-nest-server-iota.vercel.app/bookings/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formValues),

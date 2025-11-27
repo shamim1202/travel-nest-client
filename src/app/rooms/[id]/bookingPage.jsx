@@ -21,7 +21,7 @@
 //     }
 
 //     // Fetch room details
-//     fetch(`http://localhost:5000/rooms/${id}`)
+//     fetch(`https://travel-nest-server-iota.vercel.app/rooms/${id}`)
 //       .then((res) => res.json())
 //       .then((data) => {
 //         setRoom(data);
@@ -39,7 +39,7 @@
 //       date,
 //     };
 
-//     const res = await fetch("http://localhost:5000/bookings", {
+//     const res = await fetch("https://travel-nest-server-iota.vercel.app/bookings", {
 //       method: "POST",
 //       headers: { "Content-Type": "application/json" },
 //       body: JSON.stringify(bookingData),

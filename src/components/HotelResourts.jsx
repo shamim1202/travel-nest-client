@@ -14,7 +14,7 @@ export default function HotelResourts() {
   const fetchPreview = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/top-resourts");
+      const res = await axios.get("https://travel-nest-server-iota.vercel.app/top-resourts");
       console.log(res.data);
       setHotels(res.data);
       setLoading(false);

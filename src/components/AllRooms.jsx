@@ -16,7 +16,7 @@ export default function AllRooms() {
   const fetchRoom = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/rooms");
+      const res = await axios.get("https://travel-nest-server-iota.vercel.app/rooms");
       setRooms(res.data);
       setLoading(false);
     } catch (error) {
