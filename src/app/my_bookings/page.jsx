@@ -23,8 +23,15 @@ export default function MyBookingsPage() {
     }
   };
 
+  // useEffect(() => {
+  //   fetchBookings();
+  // }, []);
   useEffect(() => {
-    fetchBookings();
+    if (!auth.currentUser) {
+      Swal.fire("Unauthorized", "Please login first", "warning");
+    } else {
+      fetchBookings();
+    }
   }, []);
 
   const handleDelete = async (id) => {
@@ -38,9 +45,12 @@ export default function MyBookingsPage() {
 
     if (confirmed.isConfirmed) {
       try {
-        await fetch(`https://travel-nest-server-iota.vercel.app/bookings/${id}`, {
-          method: "DELETE",
-        });
+        await fetch(
+          `https://travel-nest-server-iota.vercel.app/bookings/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
         Swal.fire("Deleted!", "Booking has been deleted.", "success");
         fetchBookings();
       } catch (err) {
@@ -72,11 +82,14 @@ export default function MyBookingsPage() {
     // check if user clicked confirm
     if (isConfirmed && formValues) {
       try {
-        await fetch(`https://travel-nest-server-iota.vercel.app/bookings/${id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formValues),
-        });
+        await fetch(
+          `https://travel-nest-server-iota.vercel.app/bookings/${id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formValues),
+          }
+        );
         Swal.fire("Updated!", "Booking has been updated.", "success");
         fetchBookings(); // ensure this function exists
       } catch (err) {

@@ -1,10 +1,7 @@
 "use client";
 
 import { auth, provider } from "@/lib/firebase";
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup
-} from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -31,9 +28,7 @@ export default function LoginPage() {
     };
 
     localStorage.setItem("user", JSON.stringify(userData));
-    window.dispatchEvent(
-      new CustomEvent("userUpdated", { detail: userData })
-    );
+    window.dispatchEvent(new CustomEvent("userUpdated", { detail: userData }));
   };
 
   // ------------------ Email Login --------------------
@@ -96,7 +91,6 @@ export default function LoginPage() {
   return (
     <div>
       <div className="flex flex-col md:flex-row md:items-center md:justify-center">
-        
         <div className="relative w-full md:w-1/2 h-5 md:h-auto">
           <Image
             src="https://i.ibb.co.com/Z64dx37b/login.png"
@@ -109,7 +103,6 @@ export default function LoginPage() {
 
         <div className="py-4 md:py-12 flex md:flex-1 flex-col items-center justify-center px-4 md:rounded">
           <div className="card w-full max-w-md shadow-xl hover:shadow-2xl transition-all duration-300 pb-5 md:pb-10">
-
             <h1 className="text-secondary text-2xl md:text-4xl font-bold mt-4 md:mt-6 text-center">
               Login To Your Account
             </h1>
@@ -154,9 +147,8 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div>
-              <div className="divider mt-0">OR</div>
-
+            <div className="divider mt-0">OR</div>
+            <div className="mx-6 hover:shadow">
               <button
                 type="button"
                 onClick={handleGoogleLogin}
@@ -175,7 +167,6 @@ export default function LoginPage() {
                 Register
               </Link>
             </p>
-
           </div>
         </div>
       </div>

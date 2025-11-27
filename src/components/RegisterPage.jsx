@@ -1,6 +1,6 @@
 "use client";
 
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -87,6 +87,32 @@ export default function RegisterPage() {
     }
   };
 
+  // ------------------ Google Login ---------------------
+    const handleGoogleLogin = async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+  
+        saveUserToLocal(user);
+  
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          text: `Welcome back, ${user.displayName || "User"}!`,
+          timer: 2000,
+          showConfirmButton: false,
+        });
+  
+        router.push(redirectUrl);
+      } catch (err) {
+        Swal.fire({
+          icon: "error",
+          title: "Login Failed",
+          text: err.message || "Something went wrong",
+        });
+      }
+    };
+
   return (
     <div className="p-5 md:p-10">
       <div className="flex flex-col md:flex-row md:items-center md:justify-center">
@@ -100,12 +126,12 @@ export default function RegisterPage() {
           />
         </div>
 
-        <div className="card w-full max-w-md shadow-xl p-3 md:p-6">
+        <div className="card w-full max-w-md shadow-xl hover:shadow-2xl transition-all duration-300 pb-5 md:pb-10">
           <h2 className="text-secondary text-2xl md:text-4xl font-bold mt-4 md:mt-6 text-center">
             Create Account
           </h2>
 
-          <form onSubmit={handleRegister} className="flex flex-col gap-3">
+          <form onSubmit={handleRegister} className="card-body">
             <label>Name</label>
             <input
               type="text"
@@ -161,6 +187,17 @@ export default function RegisterPage() {
               {loading ? "Registering..." : "Register"}
             </button>
           </form>
+
+          <div className="divider mt-0">OR</div>
+            <div className="mx-6 hover:shadow">
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                className="btn w-full bg-white border border-gray-300"
+              >
+                Login with Google
+              </button>
+            </div>
 
           <p className="text-center mt-4">
             Already have an account?{" "}

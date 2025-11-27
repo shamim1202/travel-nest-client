@@ -66,10 +66,10 @@ export default function HeroCarousel() {
           }}
         >
           {/* Overlay */}{" "}
-          <div className="absolute w-full h-full bg-black/50"></div>
+          <div className="absolute w-full h-full bg-black/20"></div>
           {/* Card Content */}
-          <div className="relative bg-white/80 md:rounded-lg md:shadow-lg p-2 md:p-10 w-[300px] md:w-2xl text-center flex flex-col items-center gap-2 md:gap-4">
-            <h2 className="text-xl md:text-3xl font-bold text-primary">
+          <div className="relative bg-white/70 md:rounded-lg md:shadow-lg p-2 md:p-10 w-[300px] md:w-2xl text-center flex flex-col items-center gap-2 md:gap-4">
+            <h2 className="text-2xl md:text-4xl font-bold text-primary">
               {slides[current].title}
             </h2>
             <p className="text-gray-800 text-xs md:text-base">{slides[current].desc}</p>

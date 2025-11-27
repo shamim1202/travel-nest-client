@@ -45,7 +45,7 @@ export default function TopRooms() {
         <h5 className="text-primary md:text-xl font-semibold md:mb-2">
           Explore Rooms
         </h5>
-        <h1 className="text-neutral text-2xl md:text-5xl font-bold">
+        <h1 className="text-neutral text-2xl md:text-4xl font-bold">
           Find Your Perfect Stay
         </h1>
       </div>
